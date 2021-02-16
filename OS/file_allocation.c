@@ -24,7 +24,7 @@ void indexed(Memory *, Files *);
 int main() {
     printf("\t\tFile allocations\n");
     Memory *memory = initialize();
-    printf("Maximum file size supported: %dKB\n", memory->block_size * memory->block_count);
+    printf("Storage capacity: %dKB\n", memory->block_size * memory->block_count);
     Files *files = get_files_data();
 
     sequential(memory, files);
@@ -51,7 +51,8 @@ Memory *initialize() {
 
 int file_size_to_blocks(Memory *mem, int file_size) {
     int blocks_needed = file_size / mem->block_size;
-    if (file_size * 1.0 / mem->block_size != blocks_needed) blocks_needed++;
+    if (file_size * 1.0 / mem->block_size != blocks_needed)
+        blocks_needed++;
     return blocks_needed;
 }
 
@@ -75,10 +76,23 @@ Files *get_files_data() {
 }
 
 int get_free_block(Memory *mem) {
-    for (int i = 0; i < mem->block_count; i++) {
-        if (mem->arr[i] == -1)
-            return i;
+    bool seen[mem->block_count], is_all_seen = false;
+    int index;
+
+    for (int i = 0; i < mem->block_count; i++)
+        seen[i] = false;
+
+    while (!is_all_seen) {
+        index = rand() % mem->block_count;
+        if (mem->arr[index] == -1)
+            return index;
+        seen[index] = true;
+
+        is_all_seen = seen[0];
+        for (int i = 1; i < mem->block_count; i++)
+            is_all_seen = seen[i] && is_all_seen;
     }
+
     return -1;
 }
 
@@ -107,9 +121,12 @@ void sequential(Memory *mem, Files *files) {
                 break;
             }
         }
-        if (allocated)
-            printf("Allocation successful\n");
-        else
+        if (allocated) {
+            printf("Allocation successful, used %d blocks and they are: ", blocks_needed);
+            for (int k = 0; k < blocks_needed; k++)
+                printf("%d ", j - blocks_needed + k);
+            printf("\n");
+        } else
             printf("Allocation failed\n");
     }
 }
@@ -137,7 +154,10 @@ void linked(Memory *mem, Files *files) {
             }
         }
         if (allocation_possible) {
-            printf("Allocation successful\n");
+            printf("Allocation successful, used %d blocks and they are: ", blocks_needed);
+            for (int j = 0; j < blocks_needed - 1; j++)
+                printf("%d->", blocks[j]);
+            printf("%d\n", blocks[blocks_needed - 1]);
         } else
             printf("Allocation failed\n");
         free(blocks);
@@ -146,31 +166,35 @@ void linked(Memory *mem, Files *files) {
 
 void indexed(Memory *mem, Files *files) {
     printf("\nIndexed file allocation\n");
-    int blocks_needed, **files_blocks;
+    int blocks_needed, **file_blocks;
     bool allocation_possible;
-    files_blocks = (int **) malloc(files->file_count * sizeof(int));
+    file_blocks = (int **) malloc(files->file_count * sizeof(int));
 
     for (int i = 0; i < files->file_count; i++) {
         allocation_possible = true;
         blocks_needed = file_size_to_blocks(mem, files->file_sizes[i]) + 1;
-        files_blocks[i] = (int *) malloc(blocks_needed * sizeof(int));
+        file_blocks[i] = (int *) malloc(blocks_needed * sizeof(int));
         printf("\tFile %d: ", i + 1);
 
         for (int j = 0; j < blocks_needed; j++) {
-            files_blocks[i][j] = get_free_block(mem);
-            if (files_blocks[i][j] == -1) {
+            file_blocks[i][j] = get_free_block(mem);
+            if (file_blocks[i][j] == -1) {
                 allocation_possible = false;
                 for (int k = 0; k <= j; k++)
-                    mem->arr[files_blocks[i][k]] = -1;
+                    mem->arr[file_blocks[i][k]] = -1;
                 break;
             }
             if (j == 0)
-                mem->arr[files_blocks[i][j]] = i;
+                mem->arr[file_blocks[i][j]] = i;
             else
-                mem->arr[files_blocks[i][j]] = -2;
+                mem->arr[file_blocks[i][j]] = -2;
         }
         if (allocation_possible) {
-            printf("Allocation successful\n");
+            printf("Allocation successful, used %d blocks and they are: ", blocks_needed);
+            printf("%d->(", file_blocks[i][0]);
+            for (int j = 1; j < blocks_needed - 1; j++)
+                printf("%d ", file_blocks[i][j]);
+            printf("%d)\n", file_blocks[i][blocks_needed - 1]);
         } else
             printf("Allocation failed\n");
     }
