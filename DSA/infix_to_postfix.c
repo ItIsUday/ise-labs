@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define MAX_LEN 512
+#define MAX_LEN 511
 
 int top;
 char infix_string[MAX_LEN], postfix_string[MAX_LEN], stack[MAX_LEN];

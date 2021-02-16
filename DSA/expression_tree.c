@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define CAPACITY 512
+#define CAPACITY 511
 #define BOLD_RED "\e[1;31m"
 #define RESET "\e[0m"
 

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define STRING_SIZE 512
+#define STRING_SIZE 511
 
 typedef struct node {
     int row;
