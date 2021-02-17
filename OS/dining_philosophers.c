@@ -6,7 +6,24 @@
 sem_t seat;
 sem_t chopstick[5];
 
-void *philosopher(void *);
+void *philosopher(void *num) {
+    int phil = *(int *) num;
+
+    sem_wait(&seat);
+    printf("Philosopher %d has taken seat\n", phil);
+    sem_wait(&chopstick[phil]);
+    sem_wait(&chopstick[(phil + 1) % 5]);
+
+    printf("Philosopher %d is eating\n", phil);
+    sleep(1);
+    printf("Philosopher %d has finished eating\n", phil);
+
+    sem_post(&chopstick[(phil + 1) % 5]);
+    sem_post(&chopstick[phil]);
+    sem_post(&seat);
+
+    return NULL;
+}
 
 int main() {
     int i, name[5];
@@ -27,23 +44,4 @@ int main() {
     sem_destroy(&seat);
     for (i = 0; i < 5; i++)
         sem_destroy(&chopstick[i]);
-}
-
-void *philosopher(void *num) {
-    int phil = *(int *) num;
-
-    sem_wait(&seat);
-    printf("Philosopher %d has taken seat\n", phil);
-    sem_wait(&chopstick[phil]);
-    sem_wait(&chopstick[(phil + 1) % 5]);
-
-    printf("Philosopher %d is eating\n", phil);
-    sleep(1);
-    printf("Philosopher %d has finished eating\n", phil);
-
-    sem_post(&chopstick[(phil + 1) % 5]);
-    sem_post(&chopstick[phil]);
-    sem_post(&seat);
-
-    return NULL;
 }

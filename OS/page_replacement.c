@@ -81,8 +81,8 @@ void fifo(PageData *pd) {
 void lru(PageData *pd) {
     printf("\nLRU page replacement\n");
     int page_faults = 0, page, min, rep_index = 0;
-    bool found;
     int page_frame[pd->frames_count], least[pd->frames_count];
+    bool found;
     for (int i = 0; i < pd->frames_count; i++)
         page_frame[i] = -1;
 

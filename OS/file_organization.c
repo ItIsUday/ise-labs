@@ -27,8 +27,8 @@ typedef struct directory {
 
 File *new_file(char *);
 Directory *new_directory(char *, Directory *);
-bool search_file(Directory *, char *);
-bool search_directory(Directory *, char *);
+bool does_file_exist(Directory *dir, char *file);
+bool does_directory_exist(Directory *, char *);
 Directory *get_directory(Directory *, char *);
 void insert_file(Directory *, char *);
 void insert_directory(Directory *, char *);
@@ -50,7 +50,7 @@ File *new_file(char *file_name) {
     return new_file;
 }
 
-bool search_file(Directory *dir, char *file) {
+bool does_file_exist(Directory *dir, char *file) {
     for (int i = 0; i < dir->file_count; i++) {
         if (dir->files[i] != NULL && strcmp(dir->files[i]->file_name, file) == 0)
             return true;
@@ -59,8 +59,8 @@ bool search_file(Directory *dir, char *file) {
 }
 
 void insert_file(Directory *dir, char *file) {
-    if (search_file(dir, file) == true) {
-        printf("File \"%s\" already exists\n", file);
+    if (does_file_exist(dir, file) == true) {
+        printf("File " BOLD_PURPLE "\"%s\"" RESET " already exists\n", file);
         return;
     }
     dir->files[dir->file_count++] = new_file(file);
@@ -119,7 +119,7 @@ Directory *new_directory(char *dir_name, Directory *parent) {
     return new_dir;
 }
 
-bool search_directory(Directory *dir, char *dir_name) {
+bool does_directory_exist(Directory *dir, char *dir_name) {
     for (int i = 0; i < dir->dir_count; i++) {
         if (dir->directories[i] != NULL && strcmp(dir->directories[i]->dir_name, dir_name) == 0)
             return true;
@@ -128,8 +128,8 @@ bool search_directory(Directory *dir, char *dir_name) {
 }
 
 void insert_directory(Directory *dir, char *dir_name) {
-    if (search_directory(dir, dir_name) == true) {
-        printf("Directory " BOLD_BLUE "\"%s\"" RESET "already exists\n", dir_name);
+    if (does_directory_exist(dir, dir_name)) {
+        printf("Directory " BOLD_BLUE "\"%s\"" RESET " already exists\n", dir_name);
         return;
     }
     dir->directories[dir->dir_count++] = new_directory(dir_name, dir);
@@ -161,7 +161,7 @@ void n_level() {
 
     Directory *root = new_directory("root", NULL);
     Directory *current_dir = root;
-    printf(BOLD_BLUE "root" RESET " directory created\n");
+    printf(BOLD_BLUE "\"root\"" RESET " directory created\n");
 
     while (true) {
         printf("1: Create new file\n");
@@ -213,11 +213,11 @@ void n_level() {
 
                     if (strcmp("root", dir_name) == 0) {
                         current_dir = root;
-                        current_level = 0;
+                        current_level = 1;
                     } else if (strcmp("..", dir_name) == 0 && current_dir != root) {
                         current_dir = current_dir->parent;
                         current_level--;
-                    } else if (search_directory(current_dir, dir_name)) {
+                    } else if (does_directory_exist(current_dir, dir_name)) {
                         current_dir = get_directory(current_dir, dir_name);
                         current_level++;
                     } else {

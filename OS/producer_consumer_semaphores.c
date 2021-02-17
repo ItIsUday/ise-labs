@@ -13,7 +13,6 @@ int in = 0;
 int out = 0;
 int buffer[BufferSize];
 
-
 void *producer() {
     for (int i = 0; i < MaxItems; i++) {
         sleep(1);
