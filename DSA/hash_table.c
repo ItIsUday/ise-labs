@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define STRING_SIZE 511
+#define STRING_SIZE 512
 #define BOLD_RED "\e[1;31m"
 #define RESET "\e[0m"
 

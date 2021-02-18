@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <limits.h>
 
-#define STRING_SIZE 511
-#define MAX_FILE_COUNT 511
-#define MAX_DIR_COUNT 511
+#define STRING_SIZE 512
+#define MAX_FILE_COUNT 512
+#define MAX_DIR_COUNT 512
 
 #define BOLD_BLUE "\e[1;34m"
 #define BOLD_PURPLE "\e[1;35m"

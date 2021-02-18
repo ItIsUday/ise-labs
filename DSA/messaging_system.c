@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define STRING_SIZE 511
+#define STRING_SIZE 512
 
 typedef struct queue {
     int queue_size;
