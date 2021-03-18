@@ -144,14 +144,13 @@ void linked(Memory *mem, Files *files) {
 
         for (int j = 0; j < blocks_needed; j++) {
             blocks[j] = get_free_block(mem);
-            mem->arr[blocks[j]] = -2;
-
             if (blocks[j] == -1) {
                 allocation_possible = false;
-                for (int k = 0; k <= j; k++)
+                for (int k = 0; k < j; k++)
                     mem->arr[blocks[k]] = -1;
                 break;
             }
+            mem->arr[blocks[j]] = -2;
         }
         if (allocation_possible) {
             printf("Allocation successful, used %d blocks and they are: ", blocks_needed);
@@ -168,7 +167,7 @@ void indexed(Memory *mem, Files *files) {
     printf("\nIndexed file allocation\n");
     int blocks_needed, **file_blocks;
     bool allocation_possible;
-    file_blocks = (int **) malloc(files->file_count * sizeof(int));
+    file_blocks = (int **) malloc(files->file_count * sizeof(int *));
 
     for (int i = 0; i < files->file_count; i++) {
         allocation_possible = true;
@@ -180,7 +179,7 @@ void indexed(Memory *mem, Files *files) {
             file_blocks[i][j] = get_free_block(mem);
             if (file_blocks[i][j] == -1) {
                 allocation_possible = false;
-                for (int k = 0; k <= j; k++)
+                for (int k = 0; k < j; k++)
                     mem->arr[file_blocks[i][k]] = -1;
                 break;
             }

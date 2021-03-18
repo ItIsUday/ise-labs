@@ -59,7 +59,7 @@ bool does_file_exist(Directory *dir, char *file) {
 }
 
 void insert_file(Directory *dir, char *file) {
-    if (does_file_exist(dir, file) == true) {
+    if (does_file_exist(dir, file)) {
         printf("File " BOLD_PURPLE "\"%s\"" RESET " already exists\n", file);
         return;
     }
@@ -206,7 +206,7 @@ void n_level() {
 
             case 6:
                 if (current_level < level) {
-                    printf("Enter " BOLD_BLUE "\"..\"" RESET " to go to the parent directory");
+                    printf("Enter " BOLD_BLUE "\"..\"" RESET " to go to the parent directory ");
                     printf("and " BOLD_BLUE "\"root\"" RESET " for the root directory\n");
                     printf("Enter the name of the directory: ");
                     scanf("%s", dir_name);

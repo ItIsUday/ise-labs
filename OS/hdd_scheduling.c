@@ -82,19 +82,13 @@ void scan(IORequests *data) {
     }
 
     printf("\tPath: ");
-    if (head <= abs(head - data->max_cylinder_count)) {
-        for (int i = head_index; i >= 0; i--)
-            printf("%d->", queue[i]);
-        for (int i = head_index + 1; i < data->len - 1; i++)
-            printf("%d->", queue[i]);
-        printf("%d\n", queue[data->len - 1]);
-    } else {
-        for (int i = head_index; i < data->len; i++)
-            printf("%d->", queue[i]);
-        for (int i = head_index - 1; i > 0; i--)
-            printf("%d->", queue[i]);
-        printf("%d\n", queue[0]);
-    }
+    for (int i = head_index; i >= 0; i--)
+        printf("%d->", queue[i]);
+    if (queue[0] != 0)
+        printf("0->");
+    for (int i = head_index + 1; i < data->len - 1; i++)
+        printf("%d->", queue[i]);
+    printf("%d\n", queue[data->len - 1]);
 
     seek_time = head + queue[data->len - 1];
 
@@ -118,6 +112,7 @@ void cscan(IORequests *data) {
             }
         }
     }
+
     for (int i = 0; i < data->len; i++) {
         if (head == queue[i]) {
             head_index = i;
@@ -126,18 +121,13 @@ void cscan(IORequests *data) {
     }
 
     printf("\tPath: %d->", queue[head_index]);
-    if (head >= abs(head - data->max_cylinder_count)) {
-        for (int i = head_index + 1; i != head_index - 1; i = (i + 1) % data->len)
-            printf("%d->", queue[i]);
-        printf("%d\n", queue[head_index - 1]);
-        seek_time = data->max_cylinder_count - queue[head_index] + queue[head_index - 1];
-    } else {
-        for (int i = head_index - 1; i != head_index + 1; i = (i - 1 + data->len) % data->len)
-            printf("%d->", queue[i]);
-        printf("%d\n", queue[head_index + 1]);
-        seek_time = queue[head_index] + data->max_cylinder_count - queue[head_index + 1];
+    for (int i = head_index - 1; i != head_index + 1; i = (i - 1 + data->len) % data->len) {
+        if (i == data->len - 1 && queue[0] != 0)
+            printf("0->");
+        printf("%d->", queue[i]);
     }
-
+    printf("%d\n", queue[head_index + 1]);
+    seek_time = queue[head_index] + data->max_cylinder_count - queue[head_index + 1];
 
     printf("\tTotal seek time: %d\n", seek_time);
     printf("\tAverage seek time: %0.2f\n", (float) seek_time / (float) (data->len - 1));

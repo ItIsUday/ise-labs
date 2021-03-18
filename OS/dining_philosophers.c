@@ -1,7 +1,7 @@
-#include<stdio.h>
-#include<pthread.h>
-#include<semaphore.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
 
 sem_t seat;
 sem_t chopstick[5];
@@ -14,14 +14,15 @@ void *live_life(void *person) {
     sem_wait(&chopstick[philosopher]);
     sem_wait(&chopstick[(philosopher + 1) % 5]);
 
-    printf("Philosopher %d is eating\n", philosopher);
-    sleep(1);
-    printf("Philosopher %d finished eating and is now thinking\n", philosopher);
+    printf("Philosopher %d started eating\n", philosopher);
     sleep(1);
 
     sem_post(&chopstick[(philosopher + 1) % 5]);
     sem_post(&chopstick[philosopher]);
     sem_post(&seat);
+
+    printf("Philosopher %d finished eating and is now thinking\n", philosopher);
+    sleep(1);
 
     return NULL;
 }

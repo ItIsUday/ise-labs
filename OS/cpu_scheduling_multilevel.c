@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int p;
-
 void fcfs(int *burst_time, int initial_waiting_time, int process_count) {
     int total_turnaround_time = 0, total_waiting_time = 0;
 
@@ -55,16 +53,13 @@ int main() {
 
     if (p1 < p2) {
         printf("\nQueue 1:\n");
-        p = 1;
         fcfs(q1, 0, np1);
         printf("\nQueue 2:\n");
         fcfs(q2, w1, np2);
     } else {
         printf("\nQueue 2:\n");
-        p = np1 + 1;
         fcfs(q2, 0, np2);
         printf("\nQueue 1:\n");
-        p = 1;
         fcfs(q1, w2, np1);
     }
     return 0;

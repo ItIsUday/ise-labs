@@ -12,7 +12,7 @@ void priority(ProcessTable *);
 void round_robin(ProcessTable *);
 
 int main() {
-    ProcessTable *pt = (struct ProcessTable *) malloc(sizeof(ProcessTable));
+    ProcessTable *pt = (ProcessTable *) malloc(sizeof(ProcessTable));
     printf("\t\tCPU scheduling\n");
     printf("Enter the number of process: ");
     scanf("%d", &pt->process_count);

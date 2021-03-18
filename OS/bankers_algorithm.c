@@ -71,7 +71,7 @@ int **input_max_matrix(int process_count, int resource_count) {
     int **max = (int **) malloc(process_count * sizeof(int *));
     for (int i = 0; i < process_count; i++) {
         printf("\nProcess %d:\n", i + 1);
-        max[i] = (int *) malloc(resource_count * sizeof(int *));
+        max[i] = (int *) malloc(resource_count * sizeof(int));
         for (int j = 0; j < resource_count; j++) {
             printf("Maximum demand for resource %d: ", j + 1);
             scanf("%d", &max[i][j]);
@@ -83,9 +83,9 @@ int **input_max_matrix(int process_count, int resource_count) {
 
 bool is_safe(int **allocation, int **max, int *available, int process_count, int resource_count) {
     int finished = 0;
-    bool flag;
-
-    int finish[process_count], work[resource_count];
+    int work[resource_count];
+    bool allocation_possible;
+    bool finish[process_count];
 
     for (int i = 0; i < process_count; i++)
         finish[i] = false;
@@ -95,12 +95,12 @@ bool is_safe(int **allocation, int **max, int *available, int process_count, int
     for (int i = 0; i < process_count; i++) {
         for (int j = 0; j < process_count; j++) {
             if (!finish[j]) {
-                flag = false;
+                allocation_possible = true;
                 for (int k = 0; k < resource_count; k++) {
                     if ((max[j][k] - allocation[j][k]) > work[k])
-                        flag = true;
+                        allocation_possible = false;
                 }
-                if (!flag && !finish[j]) {
+                if (allocation_possible) {
                     for (int k = 0; k < resource_count; k++)
                         work[k] += allocation[j][k];
                     finish[j] = true;
