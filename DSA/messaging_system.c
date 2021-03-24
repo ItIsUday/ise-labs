@@ -157,9 +157,7 @@ void display_queue(Queue *q) {
     }
 
     printf("\nQueue: [");
-    for (int i = q->front; i != q->rear; i = (i + 1) % q->queue_size) {
-        printf("\"%s\"", q->messages[i]);
-        printf(", ");
-    }
+    for (int i = q->front; i != q->rear; i = (i + 1) % q->queue_size)
+        printf("\"%s\", ", q->messages[i]);
     printf("\"%s\"]\n", q->messages[q->rear]);
 }

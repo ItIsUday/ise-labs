@@ -27,11 +27,11 @@ int main() {
 
     multiply_polynomials(&ans, &L1, &L2);
 
-    printf("\nPolynomial Expression 1: ");
+    printf("\nMultiplicand: ");
     polynomial_view(&L1);
-    printf("Polynomial Expression 2: ");
+    printf("Multiplier: ");
     polynomial_view(&L2);
-    printf("Output: ");
+    printf("Product: ");
     polynomial_view(&ans);
 
     delete_LinkedList(&L1);

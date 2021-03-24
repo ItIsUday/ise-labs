@@ -27,8 +27,8 @@ void push(stack *, node *);
 node *pop(stack *);
 bool is_empty(stack *);
 bool is_full(stack *);
-bool check_space(char symbol);
-node *create_expression_tree(char expression[CAPACITY]);
+bool check_space(char);
+node *create_expression_tree(char *);
 
 int main() {
     node *root = NULL;
@@ -80,7 +80,7 @@ stack *create_stack() {
 }
 
 void preorder_traversal(node *root) {
-    if (root != NULL) {
+    if (root) {
         printf("%c ", root->data);
         preorder_traversal(root->left_node);
         preorder_traversal(root->right_node);
@@ -89,7 +89,7 @@ void preorder_traversal(node *root) {
 
 
 void postorder_traversal(node *root) {
-    if (root != NULL) {
+    if (root) {
         postorder_traversal(root->left_node);
         postorder_traversal(root->right_node);
         printf("%c ", root->data);

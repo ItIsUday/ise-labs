@@ -31,10 +31,10 @@ PageData *input_data() {
     printf("Enter the number of frames: ");
     scanf("%d", &pd->frames_count);
 
-    printf("Enter the length of page reference string: ");
+    printf("Enter the length of page reference value: ");
     scanf("%d", &pd->ref_string_len);
     pd->ref_string = (int *) malloc(pd->ref_string_len * sizeof(int));
-    printf("Enter the page reference string: ");
+    printf("Enter the page reference value: ");
     for (int i = 0; i < pd->ref_string_len; i++)
         scanf("%d", &pd->ref_string[i]);
 
@@ -97,8 +97,7 @@ void lru(PageData *pd) {
                         least[j] = k;
                         found = true;
                         break;
-                    } else
-                        found = false;
+                    }
                 }
                 if (!found)
                     least[j] = INT_MIN;
@@ -138,8 +137,7 @@ void optimal(PageData *pd) {
                         near[j] = k;
                         found = true;
                         break;
-                    } else
-                        found = false;
+                    }
                 }
                 if (!found)
                     near[j] = INT_MAX;

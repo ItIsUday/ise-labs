@@ -27,7 +27,7 @@ int main() {
     scanf("%d", &capacity);
     if (capacity <= 0) {
         printf("Invalid input\n");
-        exit(0);
+        exit(1);
     }
     Stack *st = create_stack(capacity);
     printf("Stack of size %d created\n", capacity);
@@ -161,44 +161,44 @@ void push(Stack *s, int new_item) {
 
 int pop(Stack *s) {
     if (!is_empty(s))
-        return s->items[--s->top + 1];
+        return s->items[s->top--];
     return -2;
 }
 
 int get_top_third_ele(Stack *st) {
+    if (st->top < 2)
+        return -2;
+
     Stack *temp = create_stack(3);
     int top_3rd_ele;
 
-    if (st->top >= 2) {
-        for (int i = 0; i < 3; i++)
-            push(temp, pop(st));
-        top_3rd_ele = peek(temp);
+    for (int i = 0; i < 3; i++)
+        push(temp, pop(st));
+    top_3rd_ele = peek(temp);
 
-        for (int i = 0; i < 3; i++)
-            push(st, pop(temp));
+    for (int i = 0; i < 3; i++)
+        push(st, pop(temp));
 
-        return top_3rd_ele;
-    }
     free(temp);
-    return -2;
+    return top_3rd_ele;
 }
 
 int get_bottom_third_ele(Stack *st) {
+    if (st->top < 2)
+        return -2;
+
     Stack *temp = create_stack(st->top - 1);
     int bottom_3rd_ele;
 
-    if (st->top >= 2) {
-        for (int i = st->top; i >= 2; i--)
-            push(temp, pop(st));
-        bottom_3rd_ele = peek(temp);
+    for (int i = st->top; i >= 2; i--)
+        push(temp, pop(st));
+    bottom_3rd_ele = peek(temp);
 
-        for (int i = temp->top; i >= 0; i--)
-            push(st, pop(temp));
+    for (int i = temp->top; i >= 0; i--)
+        push(st, pop(temp));
 
-        return bottom_3rd_ele;
-    }
     free(temp);
-    return -2;
+    return bottom_3rd_ele;
 }
 
 void pop_top_n_ele(Stack *st, int n) {

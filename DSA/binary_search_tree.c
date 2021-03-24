@@ -78,19 +78,19 @@ node *create_node(int data) {
 }
 
 node *insert_node(node *root, int data) {
-    if (root == NULL) {
+    if (root == NULL)
         root = create_node(data);
-    } else if (data < root->data)
+    else if (data < root->data)
         root->left_node = insert_node(root->left_node, data);
-    else if (data == root->data) {
+    else if (data == root->data)
         printf(BOLD_RED "insertion failed:" RESET " data already exists\n");
-    } else
+    else
         root->right_node = insert_node(root->right_node, data);
     return root;
 }
 
 void preorder_traversal(node *root) {
-    if (root != NULL) {
+    if (root) {
         printf("%d ", root->data);
         preorder_traversal(root->left_node);
         preorder_traversal(root->right_node);
@@ -98,7 +98,7 @@ void preorder_traversal(node *root) {
 }
 
 void inorder_traversal(node *root) {
-    if (root != NULL) {
+    if (root) {
         inorder_traversal(root->left_node);
         printf("%d ", root->data);
         inorder_traversal(root->right_node);
@@ -106,7 +106,7 @@ void inorder_traversal(node *root) {
 }
 
 void postorder_traversal(node *root) {
-    if (root != NULL) {
+    if (root) {
         postorder_traversal(root->left_node);
         postorder_traversal(root->right_node);
         printf("%d ", root->data);
@@ -163,7 +163,7 @@ node *delete_node(node *root, int key) {
 
 node *min_value_node(node *root) {
     node *temp = root;
-    while (temp && temp->left_node != NULL)
+    while (temp && temp->left_node)
         temp = temp->left_node;
 
     return temp;

@@ -56,18 +56,16 @@ void input_long_int(CircularLL *LL) {
     }
 }
 
-node *create_node(int digit) {
+node *create_node(int data) {
     node *temp = (node *) malloc(sizeof(node));
-    temp->data = digit;
+    temp->data = data;
     temp->next = NULL;
     return temp;
 }
 
 CircularLL *create_circularll() {
     CircularLL *LL = (CircularLL *) malloc(sizeof(CircularLL));
-    node *new_node = (node *) malloc(sizeof(node));
-    LL->head = new_node;
-    LL->head->data = 0;
+    LL->head = create_node(0);
     LL->head->next = LL->head;
 
     return LL;
@@ -76,12 +74,6 @@ CircularLL *create_circularll() {
 void insert_start(CircularLL *LL, int digit) {
     node *new_node = create_node(digit);
     LL->head->data += 1;
-
-    if (LL->head->next == LL->head) {
-        LL->head->next = new_node;
-        new_node->next = LL->head;
-        return;
-    }
     new_node->next = LL->head->next;
     LL->head->next = new_node;
 }
@@ -104,7 +96,8 @@ void add_long_int(CircularLL *ans, CircularLL *L1, CircularLL *L2) {
     if (L1->head->data == 0) {
         ans->head = L2->head;
         return;
-    } else if (L2->head->data == 0) {
+    }
+    if (L2->head->data == 0) {
         ans->head = L1->head;
         return;
     }

@@ -9,7 +9,7 @@
 
 typedef struct item {
     int key;
-    char string[STRING_SIZE];
+    char value[STRING_SIZE];
 } item;
 
 typedef struct hash_table {
@@ -135,7 +135,7 @@ bool insert(hash_table *ht, int key, char *string) {
 item *create_item(int key, char *string) {
     item *new_item = (item *) malloc(sizeof(item));
     new_item->key = key;
-    strcpy(new_item->string, string);
+    strcpy(new_item->value, string);
     return new_item;
 }
 
@@ -179,5 +179,5 @@ bool search(hash_table *ht, int key) {
 }
 
 void print_item(item *p) {
-    printf("%d: %s\n", p->key, p->string);
+    printf("%d: %s\n", p->key, p->value);
 }

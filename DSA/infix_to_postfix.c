@@ -25,7 +25,7 @@ int main() {
 
     if (!validity(0, (int) strlen(infix_string) - 1)) {
         printf("Invalid infix expression\n");
-        exit(0);
+        exit(1);
     }
 
     infix_to_postfix();
@@ -34,19 +34,17 @@ int main() {
 }
 
 void infix_to_postfix() {
-    int count, temp = 0;
-    char next;
-    char symbol;
-    for (count = 0; count < strlen(infix_string); count++) {
-        symbol = infix_string[count];
+    int temp = 0;
+    char next, symbol;
+    for (int i = 0; i < strlen(infix_string); i++) {
+        symbol = infix_string[i];
         switch (symbol) {
             case '(':
                 push(symbol);
                 break;
             case ')':
-                while ((next = pop()) != '(') {
+                while ((next = pop()) != '(')
                     postfix_string[temp++] = next;
-                }
                 break;
             case '+':
             case '-':
@@ -62,16 +60,14 @@ void infix_to_postfix() {
                 postfix_string[temp++] = symbol;
         }
     }
-    while (!is_empty()) {
+    while (!is_empty())
         postfix_string[temp++] = pop();
-    }
+
     postfix_string[temp] = '\0';
 }
 
 int precedence(char symbol) {
     switch (symbol) {
-        case '(':
-            return 0;
         case '+':
         case '-':
             return 1;

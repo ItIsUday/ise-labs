@@ -64,7 +64,7 @@ void input_matrix(DoublyLL *LL) {
     char *ptr;
 
     printf("Enter the order of the matrix: ");
-    scanf("%u %u", &row, &column);
+    scanf("%d %d", &row, &column);
     getchar();
     if (row <= 0 || column <= 0) {
         printf("Invalid input\n");
@@ -92,7 +92,7 @@ void view_matrix(DoublyLL *LL) {
     for (int i = 0; i < row; i++) {
         printf("[");
         for (int j = 0; j < column; j++) {
-            if (temp != NULL && (temp->row == i && temp->column == j)) {
+            if (temp && (temp->row == i && temp->column == j)) {
                 printf("%0.2f", temp->data);
                 temp = temp->next;
             } else
