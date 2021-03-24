@@ -14,7 +14,6 @@ typedef struct LinkedList {
 void input_polynomials(LinkedList *, char *msg);
 node *create_node(float, int);
 void polynomial_add_node(LinkedList *, float, int);
-void insert_descending(LinkedList *, float, int);
 void polynomial_view(LinkedList *);
 void multiply_polynomials(LinkedList *, LinkedList *, LinkedList *);
 void delete_LinkedList(LinkedList *);
@@ -69,7 +68,7 @@ void input_polynomials(LinkedList *LL, char *msg) {
             printf("error: Exponents can only be non negative integers\n");
             goto label;
         }
-        insert_descending(LL, coefficient, exponent);
+        polynomial_add_node(LL, coefficient, exponent);
     }
 }
 
@@ -79,25 +78,6 @@ node *create_node(float coefficient, int exponent) {
     ptr->exponent = exponent;
     ptr->next = NULL;
     return ptr;
-}
-
-void insert_descending(LinkedList *LL, float coe, int exp) {
-    node *new_node = create_node(coe, exp);
-    node *temp = LL->head;
-    if (LL->head == NULL || LL->head->exponent < exp) {
-        new_node->next = LL->head;
-        LL->head = new_node;
-        return;
-    }
-    while (temp->next) {
-        if (temp->exponent > exp && (!temp->next || temp->next->exponent < exp)) {
-            new_node->next = temp->next;
-            temp->next = new_node;
-            return;
-        }
-        temp = temp->next;
-    }
-    temp->next = new_node;
 }
 
 void polynomial_add_node(LinkedList *LL, float coe, int exp) {
