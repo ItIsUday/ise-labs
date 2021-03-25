@@ -179,5 +179,5 @@ bool search(hash_table *ht, int key) {
 }
 
 void print_item(item *p) {
-    printf("%d: %s\n", p->key, p->value);
+    printf("%d: \"%s\"\n", p->key, p->value);
 }

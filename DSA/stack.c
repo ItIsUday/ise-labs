@@ -16,7 +16,7 @@ void display_items(Stack *);
 void push(Stack *, int);
 int pop(Stack *);
 int get_top_third_ele(Stack *);
-int get_bottom_third_ele(Stack *st);
+int get_bottom_third_ele(Stack *);
 void pop_top_n_ele(Stack *, int);
 
 int main() {
@@ -96,6 +96,7 @@ int main() {
                     scanf("%d", &temp);
                 }
                 pop_top_n_ele(st, temp);
+                display_items(st);
                 break;
             case 9:
                 temp = get_bottom_third_ele(st);
@@ -206,5 +207,4 @@ void pop_top_n_ele(Stack *st, int n) {
         pop(st);
 
     printf("After popping %d elements\n", n);
-    display_items(st);
 }
