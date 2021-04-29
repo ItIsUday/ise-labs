@@ -1,4 +1,2 @@
-cmake-build-debug
-LDCO
-CMakeLists.txt
 .idea
+venv
