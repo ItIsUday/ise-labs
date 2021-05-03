@@ -8,7 +8,7 @@ if [ ! -e "$file_name" ]; then
   exit
 fi
 
-var=$(ls -l "$file_name" | cut -b 1)
+var=$(ls -ald "$file_name" | cut -b 1)
 
 case $var in
 -)
