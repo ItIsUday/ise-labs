@@ -7,8 +7,8 @@ public class Main {
         var num1 = new ComplexNum();
         System.out.println("Created " + num1 + " using default constructor");
 
-        ComplexNum num2 = scanComplexNum();
-        ComplexNum num3 = scanComplexNum();
+        ComplexNum num2 = inputComplexNum();
+        ComplexNum num3 = inputComplexNum();
 
         ComplexNum num4 = num2.add(num3);
         System.out.println("Added " + num2 + " and " + num3 + " to get " + num4);
@@ -24,7 +24,7 @@ public class Main {
 
     }
 
-    static ComplexNum scanComplexNum() {
+    static ComplexNum inputComplexNum() {
         Scanner in = new Scanner(System.in);
 
         System.out.println("Enter a new Complex number: ");
