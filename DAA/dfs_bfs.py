@@ -78,7 +78,7 @@ class Graph:
         elif components == 1:
             print("The graph is connected")
         else:
-            print(f"The graph is disconnected with {components} components")
+            print(f"The graph is disconnected and has {components} components")
 
 
 def main():
