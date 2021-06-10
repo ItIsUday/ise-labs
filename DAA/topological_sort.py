@@ -1,3 +1,6 @@
+from collections import defaultdict, deque
+
+
 class Graph:
     class Node:
         def __init__(self, value, adjacent=None):
@@ -22,8 +25,27 @@ class Graph:
             for j in adjacent:
                 self.nodes[i].add_adjacent(self.nodes[j])
 
-    def topological_sort_source_removal(self, root):
-        pass
+    def topological_sort_source_removal(self):
+        in_degree = defaultdict(int)
+        for node in self.nodes:
+            for adjacent in self.nodes[node].adjacent:
+                in_degree[adjacent.value] += 1
+
+        queue = deque()
+        for node in self.nodes:
+            if in_degree[node] == 0:
+                queue.append(node)
+
+        top_order = []
+        while queue:
+            popped_node = queue.popleft()
+            top_order.append(popped_node)
+            for node in self.nodes[popped_node].adjacent:
+                in_degree[node.value] -= 1
+                if in_degree[node.value] == 0:
+                    queue.append(node.value)
+
+        return top_order
 
     def topological_sort_dfs(self):
         def dfs_util(n):
@@ -31,15 +53,15 @@ class Graph:
             for i in self.nodes[n].adjacent:
                 if i.value not in visited:
                     dfs_util(i.value)
-            arr.insert(0, n)
+            top_order.insert(0, n)
 
         visited = set()
-        arr = []
+        top_order = []
         for node in self.nodes:
             if node not in visited:
                 dfs_util(node)
 
-        return arr
+        return top_order
 
 
 def main():
@@ -47,7 +69,8 @@ def main():
     print("Enter adjacent nodes for each node: ")
     g = {node: list(filter(bool, input(f"\t{node}: ").split(" "))) for node in nodes}
     graph = Graph(g)
-    print(f"Topological sorting using DFS: {' -> '.join(graph.topological_sort_dfs())}")
+    print(f"Sorted using DFS: {' -> '.join(graph.topological_sort_dfs())}")
+    print(f"Sorted using kahn's algorithm: {' -> '.join(graph.topological_sort_source_removal())}")
 
 
 if __name__ == "__main__":
