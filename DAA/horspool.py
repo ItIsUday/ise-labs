@@ -34,10 +34,9 @@ def find_pattern(text, pattern):
 def main():
     text = input("Enter a text: ")
     pattern = input("Enter a pattern: ")
-    start = find_pattern(text, pattern)
-    end = start + len(pattern)
 
-    if start:
+    if start := find_pattern(text, pattern):
+        end = start + len(pattern)
         print("Pattern found")
         print(f"{text[:start]}{Colors.GREEN}{text[start:end]}{Colors.RESET}{text[end:]}")
     else:
