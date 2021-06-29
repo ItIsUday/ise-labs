@@ -4,8 +4,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Currency {
-    //    TODO: limit precision of amount
-    //    TODO: add methods for comparing amount
     private double amount;
 
     public Currency(double amount) {
@@ -16,16 +14,12 @@ public class Currency {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void addAmount(double amount) {
+        this.amount += amount;
     }
 
-    public void addAmount(Currency amount) {
-        this.amount += amount.getAmount();
-    }
-
-    public void subAmount(Currency amount) {
-        this.amount -= amount.getAmount();
+    public void subAmount(double amount) {
+        this.amount -= amount;
     }
 
     @Override
