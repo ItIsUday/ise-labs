@@ -45,7 +45,7 @@ public class Account {
                 throw new DemonetizationException(new Currency(amount));
             } else if (amount <= 0) {
                 transactionMsg(false);
-                System.out.println(RED + "Amount cannot be non-negative" + RESET);
+                System.out.println(RED + "Amount should be positive" + RESET);
             } else {
                 balance.addAmount(amount);
                 transactionMsg(true);
@@ -63,7 +63,7 @@ public class Account {
             System.out.println(RED + "Insufficient balance" + RESET);
         } else if (amount <= 0) {
             transactionMsg(false);
-            System.out.println(RED + "Amount cannot be non-negative" + RESET);
+            System.out.println(RED + "Amount should be positive" + RESET);
         } else if (compare(getBalance() - amount, MIN_BALANCE.getAmount()) < 0) {
             transactionMsg(false);
             System.out.println(RED + "Balance cannot fall below " + MIN_BALANCE + RESET);
