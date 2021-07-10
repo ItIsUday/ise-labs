@@ -23,37 +23,51 @@ public class Market {
         return fruits.isEmpty();
     }
 
-    synchronized void addFruit(String fruit) {
+    synchronized void addFruit(String fruit, int tries) {
+        int i = 0;
         while (isFull()) {
+            if (i == tries) {
+                System.out.println("Farmer gave up adding " + fruit + " after " + tries + " failed attempts\n");
+                return;
+            }
             System.out.println("Farmer trying to add " + fruit);
-            System.out.println("Market is full");
+            System.out.println("Market is full\n");
             try {
-                wait();
+                wait(1000);
             } catch (InterruptedException e) {
                 System.out.println("Caught InterruptedException");
             }
+            i++;
         }
 
         fruits.add(fruit);
         System.out.println("Farmer added " + fruit);
         displayFruits();
+        System.out.println();
         notify();
     }
 
-    synchronized void BuyFruit(String fruit) {
+    synchronized void buyFruit(String fruit, int tries) {
+        int i = 0;
         while (isEmpty() || !fruits.contains(fruit)) {
+            if (i == tries) {
+                System.out.println("Consumer gave up buying " + fruit + " after " + tries + " failed attempts\n");
+                return;
+            }
             System.out.println("Consumer trying to buy " + fruit);
-            System.out.println(fruit + " is out of stock");
+            System.out.println(fruit + " is out of stock\n");
             try {
-                wait();
+                wait(1000);
             } catch (InterruptedException e) {
                 System.out.println("Caught InterruptedException");
             }
+            i++;
         }
 
         fruits.remove(fruit);
-        System.out.println("Consumer removed fruit " + fruit);
+        System.out.println("Consumer bought " + fruit);
         displayFruits();
+        System.out.println();
         notify();
     }
 
