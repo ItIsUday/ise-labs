@@ -2,8 +2,6 @@ package exception_handling;
 
 import java.util.Scanner;
 
-import static java.lang.System.exit;
-
 public class Main {
     public static void main(String[] args) {
         int choice;
@@ -35,7 +33,7 @@ public class Main {
                     account.withdraw(amount);
                     account.currentBalance();
                 }
-                case -1 -> exit(0);
+                case -1 -> System.exit(0);
                 default -> System.out.println("Invalid choice");
             }
         }

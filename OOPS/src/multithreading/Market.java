@@ -7,7 +7,7 @@ public class Market {
     private final ArrayList<String> fruits;
 
 
-    public Market(int fruitsNumber) {
+    Market(int fruitsNumber) {
         if (fruitsNumber <= 0) {
             throw new IllegalArgumentException("Number of fruits has to be positive");
         }
