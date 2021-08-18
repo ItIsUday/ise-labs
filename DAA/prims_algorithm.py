@@ -1,43 +1,56 @@
-class Node:
-    def __init__(self, value, adjacent=None):
-        self.value = value
-        self.adjacent = adjacent if adjacent else []
-
-    def add_adjacent(self, child):
-        self.adjacent.append(child)
+from collections import defaultdict
+from heapq import heapify, heappop, heappush
 
 
-class WeightedGraph:
-    class Node(Node):
-        def add_adjacent(self, child, weight=0):
-            self.adjacent.append((child, weight))
+class Graph:
+    def __init__(self, source, adj_list):
+        self.starting_node = source
+        self.adj_list = adj_list
 
-    def __init__(self, nodes=None):
-        self.nodes = {}
-        if nodes:
-            self.add_all_nodes(nodes)
+    def create_mst(self):
+        mst = defaultdict(set)
+        total_cost = 0
+        visited = {self.starting_node}
+        edges = [(cost, self.starting_node, dest) for dest, cost in self.adj_list[self.starting_node].items()]
+        heapify(edges)
 
-    def add_node(self, value):
-        self.nodes[value] = WeightedGraph.Node(value)
+        while edges:
+            cost, source, dest = heappop(edges)
 
-    def add_all_nodes(self, nodes):
-        for i in nodes:
-            self.add_node(i)
-        for i, adjacent in nodes.items():
-            for j in adjacent:
-                self.nodes[i].add_adjacent(self.nodes[j[0]], j[1])
+            if dest not in visited:
+                visited.add(dest)
+                mst[source].add(dest)
+                total_cost += cost
+                for next_dest, cost in self.adj_list[dest].items():
+                    if next_dest not in visited:
+                        heappush(edges, (cost, dest, next_dest))
 
-
-class Tree:
-    pass
-
-
-class MinHeap:
-    pass
+        return mst, total_cost
 
 
 def main():
-    pass
+    g1 = Graph(*get_graph())
+    mst, cost = g1.create_mst()
+    print_mst(mst)
+    print("Cost of the minimum spanning tree: " + str(cost) + "\n")
+
+
+def get_graph():
+    def parser(var):
+        node, cost = var.split(" ")
+        return node, int(cost)
+
+    nodes = list(filter(bool, input("Enter the nodes: ").split(" ")))
+    print("Enter the adjacency list in this format: \"node: node1 cost1, node2 cost2\"")
+    graph = {node: dict(map(parser, input(f"{node}: ").split(", "))) for node in nodes}
+    starting_node = input("Enter the starting node: ")
+    return starting_node, graph
+
+
+def print_mst(mst):
+    print("Minimum spanning tree: ")
+    for node, neighbors in mst.items():
+        print(f"{node}: {' '.join(neighbors)}")
 
 
 if __name__ == "__main__":
