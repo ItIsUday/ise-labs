@@ -3,14 +3,13 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-void func() {
-    pid_t child = fork();
+#define STRING_SIZE 512
 
-    if (child == 0) {
+int main() {
+    if (fork() == 0) {
         pid_t process_id = getpid();
         pid_t parent_id = getppid();
-        int command_size = 512;
-        char command[command_size];
+        char command[STRING_SIZE];
 
         printf("Hello from the child process\n");
         printf("Child process ID: %d\n", process_id);
@@ -23,14 +22,9 @@ void func() {
         system(command);
         printf("\n");
     } else {
-        wait(NULL);
+        pid_t child_id = wait(NULL);
         printf("Hello from the parent process\n");
         printf("Parent process ID: %d\n", getpid());
-        printf("Parent process created child process with ID: %d\n", child);
+        printf("Child process ID was: %d\n", child_id);
     }
-}
-
-int main() {
-    func();
-    return 0;
 }

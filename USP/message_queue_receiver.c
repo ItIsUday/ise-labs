@@ -5,20 +5,17 @@
 
 #define STRING_SIZE 512
 
-void terminate(char *s) {
-    perror(s);
-    exit(EXIT_FAILURE);
-}
-
-struct msg_buf {
+typedef struct msg_buf {
     long type;
     char text[STRING_SIZE];
-};
+} MsgBuf;
+
+void terminate(char *s);
 
 int main() {
     int msg_id;
     key_t key;
-    struct msg_buf rcv_buf;
+    MsgBuf rcv_buf;
 
     key = 1234;
 
@@ -34,4 +31,9 @@ int main() {
     printf("%s\n", rcv_buf.text);
 
     return 0;
+}
+
+void terminate(char *s) {
+    perror(s);
+    exit(EXIT_FAILURE);
 }

@@ -8,9 +8,9 @@ if [ ! -e "$file_name" ]; then
   exit
 fi
 
-var=$(ls -ald "$file_name" | cut -b 1)
+file_type=$(ls -ald "$file_name" | cut -c 1)
 
-case $var in
+case $file_type in
 -)
   echo "$file_name is a regular file"
   ;;

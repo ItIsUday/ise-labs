@@ -25,7 +25,7 @@ int main() {
 
         fd = open(fifo, O_WRONLY);
         printf(">>> ");
-        fgets(str2, 80, stdin);
+        fgets(str2, STRING_SIZE, stdin);
         write(fd, str2, strlen(str2) + 1);
         close(fd);
     }

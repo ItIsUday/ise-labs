@@ -17,7 +17,7 @@ typedef struct sh_mem_seg {
     int read_complete;
 } ShMemSeg;
 
-void shared_memory_counter_increment(int, ShMemSeg *, int);
+void shared_memory_counter_increment(int pid, ShMemSeg *mem_seg, int total_count);
 void remove_semaphore();
 
 int main(int argc, char *argv[]) {
@@ -76,14 +76,14 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void shared_memory_counter_increment(int pid, ShMemSeg *shmp, int total_count) {
+void shared_memory_counter_increment(int pid, ShMemSeg *mem_seg, int total_count) {
     int counter;
     int num_times;
     int sleep_time;
     int sem_id;
     struct sembuf sem_buf;
 
-    sem_id = semget(SEM_KEY, sizeof(struct sembuf), IPC_CREAT | IPC_EXCL | 0666);
+    sem_id = semget(SEM_KEY, 1, IPC_CREAT | IPC_EXCL | 0666);
     if (sem_id >= 0) {
         printf("First Process\n");
         sem_buf.sem_num = 0;
@@ -117,8 +117,8 @@ void shared_memory_counter_increment(int pid, ShMemSeg *shmp, int total_count) {
         perror("Semaphore Locked: ");
         return;
     }
-    counter = shmp->counter;
-    shmp->write_complete = 0;
+    counter = mem_seg->counter;
+    mem_seg->write_complete = 0;
     if (pid == 0)
         printf("SHM_WRITE: CHILD: Now writing\n");
     else if (pid > 0)
@@ -126,13 +126,13 @@ void shared_memory_counter_increment(int pid, ShMemSeg *shmp, int total_count) {
 
     for (num_times = 0; num_times < total_count; num_times++) {
         counter += 1;
-        shmp->counter = counter;
+        mem_seg->counter = counter;
         /* Sleeping for a second for every thousand */
         sleep_time = counter % 1000;
         if (sleep_time == 0)
             sleep(1);
     }
-    shmp->write_complete = 1;
+    mem_seg->write_complete = 1;
     sem_buf.sem_op = 1; /* Releasing the resource */
     if (semop(sem_id, &sem_buf, 1) == -1) {
         perror("Semaphore Locked\n");
