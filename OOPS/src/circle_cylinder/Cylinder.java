@@ -23,6 +23,7 @@ public class Cylinder extends Circle {
         return PI * pow(getRadius(), 2) * height;
     }
 
+    @Override
     double getArea() {
         return 2 * PI * getRadius() * (height + getRadius());
     }

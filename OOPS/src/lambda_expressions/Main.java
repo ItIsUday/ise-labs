@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        performOperation obj = (operation, num) -> {
+        PerformOperation obj = (operation, num) -> {
             boolean result = false;
 
             switch (operation) {
@@ -38,7 +38,6 @@ public class Main {
         Scanner in = new Scanner(System.in);
         int choice, num;
 
-
         System.out.print("Enter a number: ");
         num = in.nextInt();
 
@@ -64,12 +63,14 @@ public class Main {
                 else
                     System.out.println(num + " is not a prime number");
             }
+
             case 3 -> {
                 if (obj.operate(choice, num))
                     System.out.println(num + " is a palindrome");
                 else
                     System.out.println(num + " is not a palindrome");
             }
+
             default -> System.out.println("Invalid choice");
         }
     }

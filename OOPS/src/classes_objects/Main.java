@@ -14,7 +14,7 @@ public class Main {
 
         System.out.println("\nThe " + students.length + " students are: ");
         printArray(students);
-        System.out.println("\nThe " + colleges.length + " college are: ");
+        System.out.println("\nThe " + colleges.length + " colleges are: ");
         printArray(colleges);
         System.out.println("\nThe " + employees.length + " employees are: ");
         printArray(employees);
@@ -44,7 +44,7 @@ public class Main {
         Address address;
         System.out.print("Enter the number of students: ");
         count = in.nextInt();
-        in.nextLine(); // Consumes newline left-over
+        in.nextLine();
 
         Student[] students = new Student[count];
         for (int i = 0; i < count; i++) {
@@ -71,7 +71,7 @@ public class Main {
         Address address;
         System.out.print("Enter the number of colleges: ");
         count = in.nextInt();
-        in.nextLine(); // Consumes newline left-over
+        in.nextLine();
 
         College[] colleges = new College[count];
         for (int i = 0; i < count; i++) {
@@ -95,7 +95,7 @@ public class Main {
         Address address;
         System.out.print("Enter the number of employees: ");
         count = in.nextInt();
-        in.nextLine(); // Consumes newline left-over
+        in.nextLine();
 
         Employee[] employees = new Employee[count];
         for (int i = 0; i < count; i++) {

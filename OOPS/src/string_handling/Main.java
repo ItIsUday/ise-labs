@@ -37,7 +37,7 @@ public class Main {
         String ch;
         System.out.print("Enter character based on which substrings to to be made: ");
         ch = in.nextLine();
-        System.out.println("Breaking the sentence into substrings around \"ch\"");
+        System.out.println("Breaking the sentence into substrings around \"" + ch + "\"");
         String[] sub = str.split(ch, 0);
         for (String a : sub)
             System.out.println(a + " ");
