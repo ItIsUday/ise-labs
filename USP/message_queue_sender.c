@@ -48,7 +48,7 @@ int main() {
     printf("Message 1 sent\n");
 
     if (msgsnd(msg_id, &send_buf2, buf_len2, IPC_NOWAIT) < 0) {
-        printf("%d, %ld, %s, %zu\n", msg_id, send_buf1.type, send_buf1.text, buf_len1);
+        printf("%d, %ld, %s, %zu\n", msg_id, send_buf2.type, send_buf2.text, buf_len2);
         terminate("msgsnd");
     }
     printf("Message 2 sent\n");

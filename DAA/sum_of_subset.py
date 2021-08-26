@@ -15,7 +15,7 @@ def generate_sum_of_subsets(nums, max_sum):
 
 def main():
     nums = list(map(int, input("Enter the elements: ").split()))
-    max_sum = int(input("Enter max_sum sum: "))
+    max_sum = int(input("Enter max sum: "))
     print("The solutions are: ")
     print(*generate_sum_of_subsets(nums, max_sum))
 

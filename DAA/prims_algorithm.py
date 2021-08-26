@@ -21,16 +21,16 @@ class Graph:
                 visited.add(dest)
                 mst[source].add(dest)
                 total_cost += cost
-                for next_dest, cost in self.adj_list[dest].items():
+                for next_dest, next_cost in self.adj_list[dest].items():
                     if next_dest not in visited:
-                        heappush(edges, (cost, dest, next_dest))
+                        heappush(edges, (next_cost, dest, next_dest))
 
         return mst, total_cost
 
 
 def main():
-    g1 = Graph(*get_graph())
-    mst, cost = g1.create_mst()
+    graph = Graph(*get_graph())
+    mst, cost = graph.create_mst()
     print_mst(mst)
     print("Cost of the minimum spanning tree: " + str(cost) + "\n")
 

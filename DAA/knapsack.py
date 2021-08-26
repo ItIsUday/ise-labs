@@ -21,5 +21,5 @@ def main():
     print(f"Maximum value for given capacity is {knapsack(capacity, values, weights, items)}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

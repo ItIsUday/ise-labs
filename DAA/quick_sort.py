@@ -76,7 +76,7 @@ def complexity_analysis():
     print(table)
 
 
-if __name__ == "__main__":
+def main():
     print("\t\tQuick Sort")
     choice = int(input("Enter 1 to try quick sort or 2 for complexity analysis: "))
     if choice == 1:
@@ -85,3 +85,7 @@ if __name__ == "__main__":
         complexity_analysis()
     else:
         print("Invalid choice")
+
+
+if __name__ == "__main__":
+    main()

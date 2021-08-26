@@ -2,7 +2,7 @@ def n_queens(n):
     def backtrack(r):
         nonlocal n, column, anti_diagonal, diagonal, output, result
         if r == n:
-            result.append(output[:])
+            result.append(output.copy())
             return
 
         for c in range(n):
@@ -35,7 +35,7 @@ def n_queens(n):
 def main():
     queens = int(input("Enter the number of queens: "))
     solutions = n_queens(queens)
-    print(f"There are {len(solutions)} solutions")
+    print(f"The {len(solutions)} solutions are")
     for board in solutions:
         print(*board, sep="\n", end="\n\n")
 
