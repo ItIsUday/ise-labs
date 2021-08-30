@@ -32,7 +32,7 @@ def main():
     graph = Graph(*get_graph())
     mst, cost = graph.create_mst()
     print_mst(mst)
-    print("Cost of the minimum spanning tree: " + str(cost) + "\n")
+    print("Cost of the minimum spanning tree:", cost)
 
 
 def get_graph():

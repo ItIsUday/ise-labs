@@ -1,86 +1,85 @@
 from math import ceil
 
 
-def copy_to_final(curr_path):
-    global final_path
-    final_path = curr_path.copy()
-    final_path[-1] = curr_path[0]
+class Graph:
+    def __init__(self, graph):
+        self.nodes = len(graph)
+        self.graph = graph
+
+        self.__final_path = []
+        self.__final_res = float("infinity")
+
+    def tsp(self):
+        curr_bound = 0
+        curr_path = [None] * (self.nodes + 1)
+        visited = set()
+
+        for i in range(self.nodes):
+            curr_bound += sum(self.__two_lowest_distance(i))
+        curr_bound = ceil(curr_bound / 2)
+
+        visited.add(0)
+        curr_path[0] = 0
+        self.tsp_rec(curr_bound, 0, curr_path, 1, visited)
+
+        return self.__final_res, self.__final_path
+
+    def tsp_rec(self, curr_bound, curr_weight, curr_path, level, visited):
+        if level == self.nodes:
+            if self.graph[curr_path[level - 1]][curr_path[0]] != 0:
+                curr_res = curr_weight + self.graph[curr_path[level - 1]][curr_path[0]]
+                if curr_res < self.__final_res:
+                    self.__final_path = curr_path.copy()
+                    self.__final_path[-1] = curr_path[0]
+                    self.__final_res = curr_res
+            return
+
+        for i in range(self.nodes):
+            if self.graph[curr_path[level - 1]][i] != 0 and i not in visited:
+                curr_bound_backup = curr_bound
+                visited_backup = visited.copy()
+                curr_weight += self.graph[curr_path[level - 1]][i]
+
+                a, b = self.__two_lowest_distance(curr_path[level - 1])
+                c, _ = self.__two_lowest_distance(i)
+                if level == 1:
+                    curr_bound -= (a + c) / 2
+                else:
+                    curr_bound -= (b + c) / 2
+
+                if curr_bound + curr_weight < self.__final_res:
+                    curr_path[level] = i
+                    visited.add(i)
+                    self.tsp_rec(curr_bound, curr_weight, curr_path, level + 1, visited)
+
+                curr_weight -= self.graph[curr_path[level - 1]][i]
+                curr_bound = curr_bound_backup
+                visited = visited_backup
+
+    def __two_lowest_distance(self, row):
+        distances = self.graph[row].copy()
+        distances.pop(row)
+
+        first_min = second_min = float("infinity")
+        for distance in distances:
+            if distance <= first_min:
+                first_min, second_min = distance, first_min
+            elif distance < second_min:
+                second_min = distance
+        return first_min, second_min
 
 
-def two_lowest_distance(adj, i):
-    distances = adj[i].copy()
-    distances.pop(i)
+def main():
+    nodes = int(input("Enter the number of nodes: "))
+    print("Enter the distance matrix: ")
+    matrix = [list(map(int, input().split(" "))) for _ in range(nodes)]
 
-    first_min = second_min = float("infinity")
-    for distance in distances:
-        if distance <= first_min:
-            first_min, second_min = distance, first_min
-        elif distance < second_min:
-            second_min = distance
-    return first_min, second_min
+    graph = Graph(matrix)
+    cost, path = graph.tsp()
 
-
-def tsp_rec(adj, curr_bound, curr_weight, level, curr_path, visited):
-    global final_res
-
-    if level == N:
-        if adj[curr_path[level - 1]][curr_path[0]] != 0:
-            curr_res = curr_weight + adj[curr_path[level - 1]][curr_path[0]]
-            if curr_res < final_res:
-                copy_to_final(curr_path)
-                final_res = curr_res
-        return
-
-    for i in range(N):
-        if adj[curr_path[level - 1]][i] != 0 and not visited[i]:
-            temp = curr_bound
-            curr_weight += adj[curr_path[level - 1]][i]
-
-            if level == 1:
-                curr_bound -= ((two_lowest_distance(adj, curr_path[level - 1])[0] +
-                                two_lowest_distance(adj, i)[0]) / 2)
-            else:
-                curr_bound -= ((two_lowest_distance(adj, curr_path[level - 1])[1] +
-                                two_lowest_distance(adj, i)[0]) / 2)
-
-            if curr_bound + curr_weight < final_res:
-                curr_path[level] = i
-                visited[i] = True
-
-                tsp_rec(adj, curr_bound, curr_weight,
-                        level + 1, curr_path, visited)
-            curr_weight -= adj[curr_path[level - 1]][i]
-            curr_bound = temp
-
-            visited = [False] * len(visited)
-            for j in range(level):
-                if curr_path[j] != -1:
-                    visited[curr_path[j]] = True
+    print("Minimum cost:", cost)
+    print("Path:", " -> ".join(map(str, path)))
 
 
-def tsp(adj):
-    curr_bound = 0
-    curr_path = [-1] * (N + 1)
-    visited = [False] * N
-
-    for i in range(N):
-        curr_bound += (sum(two_lowest_distance(adj, i)))
-
-    curr_bound = ceil(curr_bound / 2)
-
-    visited[0] = True
-    curr_path[0] = 0
-
-    tsp_rec(adj, curr_bound, 0, 1, curr_path, visited)
-
-
-N = int(input("Enter the number of nodes: "))
-print("Enter the distance matrix: ")
-graph = [list(map(int, input().split(" "))) for _ in range(N)]
-
-final_path = []
-final_res = float("infinity")
-tsp(graph)
-
-print("Minimum cost:", final_res)
-print("Path:", " -> ".join(map(str, final_path)))
+if __name__ == "__main__":
+    main()
