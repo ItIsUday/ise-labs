@@ -1,12 +1,17 @@
+from string import ascii_lowercase
+
+
 class CaesarCipher:
     def __init__(self, shift):
-        self.shift = shift % 26
+        self.shift = shift
+        self.alphabet = ascii_lowercase
+        self.index = {char: i for i, char in enumerate(self.alphabet)}
 
-    def encrypt(self, plain_text):
-        return ''.join(chr(ord(c) + self.shift) for c in plain_text)
+    def encrypt(self, plaintext):
+        return ''.join(self.alphabet[(self.index[c] + self.shift) % 26] for c in plaintext if c in self.index)
 
-    def decrypt(self, cipher_text):
-        return ''.join(chr(ord(c) - self.shift) for c in cipher_text)
+    def decrypt(self, ciphertext):
+        return ''.join(self.alphabet[(self.index[c] - self.shift) % 26] for c in ciphertext if c in self.index)
 
 
 def main():
