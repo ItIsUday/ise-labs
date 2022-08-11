@@ -13,7 +13,7 @@ class PlayfairCipher:
 
     def create_key_matrix(self):
         key_set = dict.fromkeys(self.key)
-        key_list = list(dict.fromkeys(self.key))
+        key_list = list(key_set)
         key_list.extend(char for char in self.alphabet if char not in key_set and char != self.omitted)
         key_matrix = [key_list[i * 5:(i + 1) * 5] for i in range(5)]
         return key_matrix
@@ -22,8 +22,8 @@ class PlayfairCipher:
         new_plaintext = []
         for i, char in enumerate(plaintext):
             new_plaintext.append(char)
-            if i < len(plaintext) - 1 and char == plaintext[i + 1] \
-                    or i == len(plaintext) - 1 and len(new_plaintext) % 2 == 1:
+            if (i < len(plaintext) - 1 and char == plaintext[i + 1]) or (
+                    i == len(plaintext) - 1 and len(new_plaintext) % 2 == 1):
                 new_plaintext.append(self.filler)
 
         return new_plaintext
